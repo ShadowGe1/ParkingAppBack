@@ -1,7 +1,5 @@
 package org.example.parkingsystemv2.service;
 
-
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.parkingsystemv2.config.ConfigBD;
 import org.example.parkingsystemv2.entity.User;
@@ -128,6 +126,23 @@ public class UserRepository {
             session.getTransaction().commit();
         } catch (Exception e) {
             log.error("Error checking if username exists", e);
+        }
+
+        return count != null && count > 0;
+    }
+
+    public boolean existsUserByPhone(String phone) {
+        Long count = 0L;
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+
+            count = session.createQuery("SELECT count(u) FROM User u where u.phone = :phone", Long.class)
+                    .setParameter("phone", phone)
+                    .uniqueResult();
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            log.error("Error checking if phone exists", e);
         }
 
         return count != null && count > 0;

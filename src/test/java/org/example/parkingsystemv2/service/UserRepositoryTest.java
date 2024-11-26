@@ -1,7 +1,6 @@
 package org.example.parkingsystemv2.service;
 
 import org.example.parkingsystemv2.authorization.passwordController.EncryptionPassword;
-import org.example.parkingsystemv2.config.ConfigBD;
 import org.example.parkingsystemv2.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
