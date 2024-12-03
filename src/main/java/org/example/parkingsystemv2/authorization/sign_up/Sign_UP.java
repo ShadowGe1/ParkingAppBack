@@ -1,9 +1,11 @@
 package org.example.parkingsystemv2.authorization.sign_up;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.parkingsystemv2.authorization.passwordController.EncryptionPassword;
 import org.example.parkingsystemv2.entity.User;
 import org.example.parkingsystemv2.service.UserRepository;
 
+@Slf4j
 public class Sign_UP {
     private final UserRepository userRepository;
     private final String username;
@@ -66,7 +68,7 @@ public class Sign_UP {
             return verifyUsername();
         } else if (!verifyEmail().isEmpty()) {
             return verifyEmail();
-        } else if (verifyPhone().isEmpty()) {
+        } else if (!verifyPhone().isEmpty()) {
             return verifyPhone();
         } else if (!verifyPassword()) {
             return "The passwords do not match";
@@ -77,11 +79,14 @@ public class Sign_UP {
                 .name(firstName)
                 .surname(lastName)
                 .email(email)
-                .phone(phone)
                 .password(cryptPassword())
+                .phone(phone)
                 .build();
 
         userRepository.saveOrUpdateUser(user);
-        return "";
+        if(user.getId() != null) {
+            return "";
+        }
+        return "Error for registration!!!";
     }
 }

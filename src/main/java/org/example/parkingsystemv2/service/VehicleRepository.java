@@ -9,7 +9,7 @@ import org.hibernate.SessionFactory;
 @AllArgsConstructor
 @Slf4j
 public class VehicleRepository {
-    SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     public void saveVehicle(Vehicle vehicle) {
         try (Session session = sessionFactory.getCurrentSession()) {

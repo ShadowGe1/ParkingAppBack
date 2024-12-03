@@ -17,5 +17,6 @@
     <property name="hibernate.hbm2ddl.auto">validate</property>
     <mapping class="org.example.parkingsystemv2.entity.User"/>
     <mapping class="org.example.parkingsystemv2.entity.Vehicle"/>
+    <mapping class="org.example.parkingsystemv2.entity.ParkingLocations"/>
   </session-factory>
 </hibernate-configuration>

@@ -35,6 +35,15 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Vehicle> vehicles;
 
+    public User(String username, String name, String surname, String email, String password, String phone) {
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+    }
+
     public void addCarToUser(Vehicle vehicle) {
         if (vehicles == null) {
             vehicles = new ArrayList<>();

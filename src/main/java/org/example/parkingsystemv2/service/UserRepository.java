@@ -11,12 +11,13 @@ import java.util.Optional;
 @Slf4j
 public class UserRepository {
 
-    SessionFactory sessionFactory = ConfigBD.getSessionFactory();
+    private final SessionFactory sessionFactory = ConfigBD.getSessionFactory();
 
     public void saveOrUpdateUser(User user) {
-        try (Session session = sessionFactory.getCurrentSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
+            log.info("Saving user {}", user.getPhone());
             if (user.getId() == null) {
                 session.persist(user);
             } else {
@@ -31,7 +32,7 @@ public class UserRepository {
 
     public Optional<User> getUserById(int id) {
         Optional<User> userOptional = Optional.empty();
-        try (Session session = sessionFactory.getCurrentSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
             User user = session.get(User.class, id);
@@ -47,7 +48,7 @@ public class UserRepository {
     public Optional<User> getUserByEmail(String email) {
         Optional<User> userOptional = Optional.empty();
 
-        try (Session session = sessionFactory.getCurrentSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
             User user = session.createQuery("FROM User WHERE email = :email", User.class)
@@ -67,7 +68,7 @@ public class UserRepository {
     public Optional<User> getUserByUsername(String username) {
         Optional<User> userOptional = Optional.empty();
 
-        try (Session session = sessionFactory.getCurrentSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
             User user = session.createQuery("FROM User WHERE username = :username", User.class)
@@ -85,7 +86,7 @@ public class UserRepository {
     }
 
     public void deleteUserById(int id) {
-        try (Session session = sessionFactory.getCurrentSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
             User user = session.get(User.class, id);
@@ -99,7 +100,7 @@ public class UserRepository {
 
     public boolean existsUserByEmail(String email) {
         Long count = 0L;
-        try (Session session = sessionFactory.getCurrentSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
             count = session.createQuery("SELECT count(u) FROM User u WHERE u.email = :email", Long.class)
@@ -116,7 +117,7 @@ public class UserRepository {
 
     public boolean existsUserByUsername(String username) {
         Long count = 0L;
-        try (Session session = sessionFactory.getCurrentSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
             count = session.createQuery("SELECT count(u) FROM User u WHERE u.username = :username", Long.class)
@@ -133,7 +134,7 @@ public class UserRepository {
 
     public boolean existsUserByPhone(String phone) {
         Long count = 0L;
-        try (Session session = sessionFactory.getCurrentSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
             count = session.createQuery("SELECT count(u) FROM User u where u.phone = :phone", Long.class)
@@ -150,7 +151,7 @@ public class UserRepository {
 
     public String getPasswordByEmail(String email) {
         String password = "";
-        try (Session session = sessionFactory.getCurrentSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
             password = session.createQuery("FROM User u WHERE u.email = :email SELECT u.password", String.class)
