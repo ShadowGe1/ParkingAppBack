@@ -3,7 +3,6 @@ package org.example.parkingsystemv2.service;
 import lombok.extern.slf4j.Slf4j;
 import org.example.parkingsystemv2.config.ConfigBD;
 import org.example.parkingsystemv2.dto.CoordinateDTO;
-import org.example.parkingsystemv2.entity.ParkingLocations;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
